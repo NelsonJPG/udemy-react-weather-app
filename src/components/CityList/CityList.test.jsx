@@ -11,7 +11,8 @@ const cities = [
 ]
 test("CityList renders", async () => {   
 
-    const { findAllByRole } = render(<CityList cities={cities} />);
+    const fnClickOnItem = jest.fn(); // funcion mock = imita a una funcion normal
+    const { findAllByRole } = render(<CityList cities={cities} onClickCity={fnClickOnItem} />);
     const citylist = await findAllByRole("listitem"); // busca todos los heading dentro de los componentes (h1, h2, h3...)
     expect(citylist).toHaveLength(4);
 })

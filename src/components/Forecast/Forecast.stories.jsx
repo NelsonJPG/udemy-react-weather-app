@@ -11,4 +11,5 @@ const forecastItemList = [
     { hour: 20, temperature: 10, state: "sunny", weekDay: "Martes"},
     { hour: 3, temperature: 20, state: "rain", weekDay: "Miercoles"},
 ]
+
 export const ForecastExample = () => <Forecast forecastItemList={forecastItemList} />

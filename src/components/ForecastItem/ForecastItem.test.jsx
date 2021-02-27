@@ -3,7 +3,7 @@ import ForecastItem from '../ForecastItem';
 import { render } from '@testing-library/react';
 
 test("ForecastItem renders", async () => {   
-    const { findByText } = render(<ForecastItem hour={10} temperature={21} state="cloud" weekDay="Martes" />);
+    const { findByText } = render(<ForecastItem hour={10} temperature={21} state="clouds" weekDay="Martes" />);
 
     const hour = await findByText(/10/); // preparar la busqueda del element 
     const temperature = await findByText(/21/); // preparar la busqueda del element 

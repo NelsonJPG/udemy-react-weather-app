@@ -13,19 +13,20 @@ const WelcomeScreen = ({ children }) => {
     useEffect( () => { 
 
         if(!vanta){
-            setVanta(1);
-
-            Clouds({
-                THREE,
-                el: myRefDiv.current
-            })
+            setVanta(    
+                Clouds({
+                    THREE,
+                    el: myRefDiv.current
+                    
+                })
+            );
             //console.log("useEffect", myRefDiv.current);
         }
 
         // desmontaje
         return () => {
 
-            if(vanta){
+            if (vanta) {
                 vanta.destroy();
             }
         }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from '@material-ui/core';
 
 class ErrorBoundary extends Component {
     // previo a la renderizacion
@@ -7,48 +6,24 @@ class ErrorBoundary extends Component {
         super(props); // para q llegue a su componente superior HOC
 
         this.state = {
-            activo: false
+            hasError: false
         }
     }
 
-    estadoActivo = () => {
-        //return this.props.activo? "Activo" : "No Activo";
-        return this.state.activo? "Activo" : "No Activo";
+    // esto es interno de React que envia al state si ocurre un error
+    static getDerivedStateFromError(error) {
+        return { hasError : true }
     }
 
-    onClickHandler = () => {
-        
-        this.setState( (prev) =>  ({activo: !prev.activo}) ) // toggle 
-    }
-
-    // FASE DE MONTAJE
-    componentDidMount() {
-        console.log("FASE DE MONTAJE")
-    }
-
-    // FASE DE ACTUALIZACION - 1 RENDERIZACION INITIAL (MONTAJE) 
-    componentDidUpdate(prevProps, prevState) {
-        console.log("Estado Previo", prevState.activo, "Nuevo Estado", this.state.activo)
-        console.log("El componente se ha actualizado")
-    }
-
-    // FASE DE DESMONTAJE
-    componentWillUnmount() {
-        console.log("componente desmontado")
+    componentDidCatch(error, errorInfo){
+        //console.log("error", error)
+        console.log("errorInfo", errorInfo)
     }
 
     render() {
-        return (
-            <div>
-                <Button onClick={ this.onClickHandler }>Activo</Button>
-                <h1>
-                    ErrorBoundary {this.props.saludo}
-                    {
-                        this.estadoActivo()
-                    }
-                </h1>
-            </div>
-        )
+        return this.state.hasError? (<h2>Hubo un Error</h2>) 
+        :this.props.children
+    
     }
 }
 

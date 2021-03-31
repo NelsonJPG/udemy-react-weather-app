@@ -1,9 +1,9 @@
 import { Grid, Link, Typography } from '@material-ui/core'
 import React from 'react'
 import { IconContext } from 'react-icons'
-import WelcomeScreen from './../components/WelcomeScreen'
 import {WiDaySunny} from 'react-icons/wi'
 import { Link as RouterLink} from 'react-router-dom'
+import WelcomeScreen from './../components/WelcomeScreen'
 
 
 const WelcomePage = () => {

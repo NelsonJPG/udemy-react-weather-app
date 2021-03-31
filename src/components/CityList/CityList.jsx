@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { Grid, List, ListItem } from '@material-ui/core';
-import convertUnits from 'convert-units';
-import CityInfo from '../CityInfo';
-import Weather from '../Weather';
 import { Alert } from '@material-ui/lab';
+import convertUnits from 'convert-units';
+import CityInfo from './../CityInfo';
+import Weather from './../Weather';
 
 
 const getCityCode = (city, countryCode) =>  `${city}-${countryCode}`
@@ -16,7 +16,7 @@ const renderCitiesAndCountry = eventOnClickCity => {
         const { city, country, countryCode} = cityAndCountry;
         //const { temperature, state} = weather;
         return (
-            <ListItem button key={getCityCode(city, countryCode)} onClick={eventOnClickCity}>
+            <ListItem button key={getCityCode(city, countryCode)} onClick={ () => eventOnClickCity(city, countryCode) }>
                 <Grid container justify="center" alignItems="center">
                     <Grid item  xs={12} md={9} >
                         <CityInfo city={city} country={country} />
@@ -153,7 +153,7 @@ CityList.propTypes = {
             countryCode: PropTypes.string.isRequired
         })
     ).isRequired,
-    onClickCity: PropTypes.func.isRequired,
+    onClickCity: PropTypes.func.isRequired
 }
 
 export default CityList

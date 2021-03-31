@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Typography, Grid } from '@material-ui/core'
 import { IconContext } from "react-icons";
-import IconState, {validValues} from '../IconState';
+import IconState, {validValues} from './../IconState';
  
 const ForecastItem = ({ weekDay, hour, temperature, state }) => {
     return (

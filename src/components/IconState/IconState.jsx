@@ -8,8 +8,8 @@ export const validValues = [
     "rain",
     "drizzle",
     "snow",
-    "thunderstorm",
-]
+    "thunderstorm"
+];
 
 const stateByName = {
     clouds: WiDayCloudy,

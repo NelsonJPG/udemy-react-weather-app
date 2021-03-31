@@ -4,7 +4,7 @@ import {WiDaySunny} from 'react-icons/wi'
 import { Link as RouterLink} from 'react-router-dom'
 import { Grid, Link, Typography } from '@material-ui/core'
 
-const NotFoundPage = props => {
+const NotFoundPage = () => {
     return (
         <Grid className="full" container direction="column" justify="center">
             <div className="highlight">

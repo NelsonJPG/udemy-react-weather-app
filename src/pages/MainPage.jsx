@@ -8,13 +8,13 @@ const cities = [
     { city: "Caracas", country: "Venezuela", countryCode: "VE"}, 
     { city: "Bogotá", country: "Colombia", countryCode: "CO"}, 
     { city: "Santiago", country: "Chile", countryCode: "CL"},
-    { city: "Buenos Aires", country: "Argentina", countryCode: "AR"},
+    { city: "Buenos Aires", country: "Argentina", countryCode: "AR"}
 ]
 
 const MainPage = props => {
     let history = useHistory();
 
-    const onClickHandler = () => history.push('/city');
+    const onClickHandler = ( city, countryCode ) => history.push(`/city/${countryCode}/${city}`);
 
 
     return (

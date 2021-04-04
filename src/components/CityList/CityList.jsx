@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 import { Grid, List, ListItem } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import convertUnits from 'convert-units';
 import CityInfo from './../CityInfo';
 import Weather from './../Weather';
+import useCityList from '../../hooks/useCityList';
+import { getCityCode } from './../../utils/utils';
 
 
-const getCityCode = (city, countryCode) =>  `${city}-${countryCode}`
 // renderCitiesAndCountry se va a convertir en una funcion q retorna otra (HOC)
 const renderCitiesAndCountry = eventOnClickCity => {
     
@@ -31,104 +30,15 @@ const renderCitiesAndCountry = eventOnClickCity => {
     return renderCitiesAndCountryInternal
 }
 
-
 const CityList = ({cities, onClickCity }) => {
-
+    // inializacion de un componente custom 
+    const { allWeather, error, setError } = useCityList(cities)
+    
     // allWeather tendra la siguiente estructura 
     // [Caracas-Venezuela] : { temperature, state}
     // [Bogotá-Colombia] : { temperature, state}
     // [City-Country] : { temperature, state}.... N
-    const [allWeather, setAllWeather] = useState({});
-    const [error, setError] = useState(null);
-
-    useEffect( () => {
-        const setWeather = async ( city, countryCode ) => {
-            const apiKey = '30c3bc93dec3c873d219c20b98430f7f', url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}`
-            
-            try {
-                
-                const response = await axios.get(url);
     
-                const { data } = response
-                    
-                const temperature = Number(convertUnits(data.main.temp).from("K").to("C").toFixed(0));
-                
-                const state = data.weather[0].main.toLowerCase();
-
-                const propKeys = getCityCode( city, countryCode)
-                
-                const propValues = { temperature, state } 
-    
-                setAllWeather( (allWeather) => {
-    
-                    const result  =  {...allWeather,  [propKeys] : propValues};
-    
-                    return result;
-                });
-
-            } catch (error) {
-
-                if(error.response) // errores regresados por el server 
-                {
-                    const { data, status } = error.response;
-                    console.log(data, status);
-                    setError("Ha ocurrido un error en el servidor de clima");
-                    
-                }else if(error.request) // errores que no llegaron al server pero se hizo la peticion
-                {
-                    console.log("No se pudo acceder al server (Revisar Internet o No envio la request al server)");
-                    setError("Verifique la conexion con su servidor");
-                    
-                }else{
-                    
-                    console.log('error imprevisto');
-                    setError("Error al cargar datos");
-
-                }
-                
-            }
-            /*
-            // EJEMPLO CON PROMESA
-            axios.get(url)
-                .then( response =>  {
-                    const { data } = response
-                
-                    const temperature = Number(convertUnits(data.main.temp).from("K").to("C").toFixed(0));
-                    const state = data.weather[0].main.toLowerCase();
-
-                    setAllWeather( (allWeather) => {
-
-                        const result  =  {...allWeather,  [`${city}-${country}`] : { temperature, state} };
-
-                        return result;
-                    }); 
-                }).catch( error => {
-
-                    if(error.response) // errores regresados por el server 
-                    {
-                        const { data, status } = error.response;
-                        console.log(data, status);
-                        setError("Ha ocurrido un error en el servidor de clima");
-                        
-                    }else if(error.request) // errores que no llegaron al server pero se hizo la peticion
-                    {
-                        console.log("No se pudo acceder al server (Revisar Internet o No envio la request al server)");
-                        setError("Verifique la conexion con su servidor");
-                        
-                    }else{
-                        
-                        console.log('error imprevisto');
-                        setError("Error al cargar datos");
-                    
-                    }
-
-                });*/
-           
-        }
-
-        cities.forEach( ({ city, countryCode})=> setWeather( city, countryCode));
-        
-    }, [cities]);
 
     //const weather = { temperature: 13, state: 'sunny'}
 

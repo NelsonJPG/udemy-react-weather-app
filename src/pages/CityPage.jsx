@@ -1,5 +1,5 @@
 import { Grid, LinearProgress } from '@material-ui/core';
-import React from 'react'
+import React, { useMemo } from 'react'
 import CityInfo from './../components/CityInfo';
 import Weather from './../components/Weather';
 import WeatherDetails from './../components/WeatherDetails';
@@ -16,7 +16,9 @@ const CityPage = () => {
     
     const { city, countryCode, chartdata, forecastItemList} = useCityPage();
 
-    const { allWeather } = useCityList([{ city, countryCode}])
+    const cities = useMemo(() => ([{ city, countryCode}]), [city, countryCode])
+
+    const { allWeather } = useCityList(cities)
 
     const weather = allWeather[ getCityCode( city, countryCode)];
 
@@ -32,7 +34,7 @@ const CityPage = () => {
                 <Grid  item xs={12}>
                     <Weather state={state} temperature={temperature}/>
                     {
-                    wind && humidity && <WeatherDetails humidity={humidity} wind={wind} />
+                        wind && humidity && <WeatherDetails humidity={humidity} wind={wind} />
                     }
                 </Grid>
                 <Grid item>

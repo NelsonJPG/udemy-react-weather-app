@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
-import { getCityCode } from './../utils/utils';
-import { getWeatherUrl, toCelsius} from '../utils/urls';
+import getAllWeather from '../utils/transform/getAllWeather';
+import { getWeatherUrl} from '../utils/urls';
 
 // CREACION DE UN COMPONENTE CUSTOM
 const useCityList = (cities) => {
@@ -11,26 +11,18 @@ const useCityList = (cities) => {
 
     useEffect( () => {
         const setWeather = async ( city, countryCode ) => {
-            
+         
             const url = getWeatherUrl(city, countryCode)
             
             try {
-                
+        
                 const response = await axios.get(url);
-    
-                const { data } = response
-                    
-                const temperature = toCelsius(data.main.temp);
-                
-                const state = data.weather[0].main.toLowerCase();
 
-                const propKeys = getCityCode( city, countryCode)
-                
-                const propValues = { temperature, state } 
-    
+                const allWeatherAux = getAllWeather(response, city, countryCode);
+
                 setAllWeather( (allWeather) => {
     
-                    const result  =  {...allWeather,  [propKeys] : propValues};
+                    const result  =  {...allWeather,  ...allWeatherAux };
     
                     return result;
                 });
@@ -95,7 +87,7 @@ const useCityList = (cities) => {
            
         }
 
-        cities.forEach( ({ city, countryCode})=> setWeather( city, countryCode));
+        cities && cities.forEach( ({ city, countryCode}) => setWeather( city, countryCode));
         
     }, [cities]);
 

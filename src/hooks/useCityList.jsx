@@ -4,9 +4,9 @@ import getAllWeather from '../utils/transform/getAllWeather';
 import { getWeatherUrl} from '../utils/urls';
 
 // CREACION DE UN COMPONENTE CUSTOM
-const useCityList = (cities) => {
+const useCityList = (cities, onSetAllWeather) => {
 
-    const [allWeather, setAllWeather] = useState({});
+    //const [allWeather, setAllWeather] = useState({});
     const [error, setError] = useState(null);
 
     useEffect( () => {
@@ -19,13 +19,11 @@ const useCityList = (cities) => {
                 const response = await axios.get(url);
 
                 const allWeatherAux = getAllWeather(response, city, countryCode);
-
-                setAllWeather( (allWeather) => {
-    
-                    const result  =  {...allWeather,  ...allWeatherAux };
-    
-                    return result;
-                });
+                
+                onSetAllWeather( allWeatherAux );
+                // subir el estado a un nivel superior 
+                //setAllWeather( (allWeather) => ({...allWeather,  ...allWeatherAux }) );
+                    
 
             } catch (error) {
 
@@ -89,10 +87,10 @@ const useCityList = (cities) => {
 
         cities && cities.forEach( ({ city, countryCode}) => setWeather( city, countryCode));
         
-    }, [cities]);
+    }, [cities, onSetAllWeather]);
 
     // retorno de valores de un componente custom
-    return { allWeather, error, setError }  
+    return { error, setError }  
 
 }
 

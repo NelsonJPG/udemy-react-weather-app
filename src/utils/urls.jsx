@@ -1,6 +1,6 @@
 import convertsUnit from 'convert-units';
 
-const appid = "30c3bc93dec3c873d219c20b98430f7f"
+const appid = "dfdae05eb72674f05e8f1c83a766d7d3"
 
 export const getForecastUrl = (city, countryCode) => `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&appid=${appid}` 
 export const getWeatherUrl = (city, countryCode) => `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${appid}`

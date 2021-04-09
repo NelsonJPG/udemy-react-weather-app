@@ -30,9 +30,11 @@ const renderCitiesAndCountry = eventOnClickCity => {
     return renderCitiesAndCountryInternal
 }
 
-const CityList = ({cities, onClickCity, onSetAllWeather, allWeather }) => {
+const CityList = ({cities, onClickCity, actions, data }) => {
+    const {onSetAllWeather} = actions;
+    const { allWeather } = data;
     // inializacion de un componente custom 
-    const { error, setError } = useCityList(cities, onSetAllWeather)
+    const { error, setError } = useCityList(cities, allWeather, onSetAllWeather)
     
     // allWeather tendra la siguiente estructura 
     // [Caracas-Venezuela] : { temperature, state}

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import getAllWeather from '../utils/transform/getAllWeather';
 import { getWeatherUrl} from '../utils/urls';
-
+import { getCityCode } from '../utils/utils';
 // CREACION DE UN COMPONENTE CUSTOM
-const useCityList = (cities, onSetAllWeather) => {
+const useCityList = (cities, allWeather, onSetAllWeather) => {
 
     //const [allWeather, setAllWeather] = useState({});
     const [error, setError] = useState(null);
@@ -16,6 +16,9 @@ const useCityList = (cities, onSetAllWeather) => {
             
             try {
         
+                const propName = getCityCode( city, countryCode);
+                onSetAllWeather({ [propName] : {}});
+
                 const response = await axios.get(url);
 
                 const allWeatherAux = getAllWeather(response, city, countryCode);
@@ -40,7 +43,7 @@ const useCityList = (cities, onSetAllWeather) => {
                     
                 }else{
                     
-                    console.log('error imprevisto');
+                    console.log('error imprevisto', error);
                     setError("Error al cargar datos");
 
                 }
@@ -85,9 +88,12 @@ const useCityList = (cities, onSetAllWeather) => {
            
         }
 
-        cities && cities.forEach( ({ city, countryCode}) => setWeather( city, countryCode));
-        
-    }, [cities, onSetAllWeather]);
+        cities && cities.forEach( ({ city, countryCode}) => {
+            if(!allWeather[ getCityCode( city, countryCode)]){
+                setWeather( city, countryCode);
+            }
+        })
+    }, [cities, onSetAllWeather, allWeather]);
 
     // retorno de valores de un componente custom
     return { error, setError }  
